@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HostelOS — Smart Room Allocation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+
+  <!-- Background decoration -->
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">HostelOS</span>
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-btn active" data-tab="add">Add Room</button>
+      <button class="nav-btn" data-tab="view">View Rooms</button>
+      <button class="nav-btn" data-tab="search">Search</button>
+      <button class="nav-btn" data-tab="allocate">Allocate</button>
+    </nav>
+    <div class="room-counter">
+      <span id="totalRooms">0</span> rooms
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ═══ TAB: ADD ROOM ═══ -->
+    <section class="tab-panel active" id="tab-add">
+      <div class="panel-header">
+        <h1 class="panel-title">Add New Room</h1>
+        <p class="panel-subtitle">Register a hostel room with its facilities</p>
+      </div>
+
+      <div class="form-card">
+        <form id="addRoomForm" novalidate>
+
+          <div class="form-row">
+            <div class="field-group">
+              <label class="field-label" for="roomNo">Room Number</label>
+              <input class="field-input" type="text" id="roomNo" placeholder="e.g. A-101" autocomplete="off" />
+              <span class="field-error" id="err-roomNo"></span>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="capacity">Capacity</label>
+              <input class="field-input" type="number" id="capacity" placeholder="Max students" min="1" max="20" />
+              <span class="field-error" id="err-capacity"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="toggle-group">
+              <label class="toggle-label">Air Conditioning</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="hasAC" />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+                <span class="toggle-text" id="acText">No AC</span>
+              </label>
+            </div>
+            <div class="toggle-group">
+              <label class="toggle-label">Attached Washroom</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="hasWashroom" />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+                <span class="toggle-text" id="washroomText">No Washroom</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            <span class="btn-icon">+</span> Add Room
+          </button>
+        </form>
+
+        <!-- Output Panel -->
+        <div class="output-panel" id="addOutput" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: VIEW ROOMS ═══ -->
+    <section class="tab-panel" id="tab-view">
+      <div class="panel-header">
+        <h1 class="panel-title">All Rooms</h1>
+        <p class="panel-subtitle">Complete inventory of registered hostel rooms</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="stats-bar" id="statsBar">
+          <span class="stat-chip">Total: <strong id="stat-total">0</strong></span>
+          <span class="stat-chip">AC Rooms: <strong id="stat-ac">0</strong></span>
+          <span class="stat-chip">With Washroom: <strong id="stat-wash">0</strong></span>
+        </div>
+        <button class="btn btn-ghost" id="clearAllBtn">Clear All</button>
+      </div>
+
+      <div class="rooms-grid" id="roomsGrid">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">🏠</div>
+          <p>No rooms added yet.<br/>Head to <strong>Add Room</strong> to get started.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TAB: SEARCH ═══ -->
+    <section class="tab-panel" id="tab-search">
+      <div class="panel-header">
+        <h1 class="panel-title">Search Rooms</h1>
+        <p class="panel-subtitle">Filter rooms by capacity and facility requirements</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-row">
+          <div class="field-group">
+            <label class="field-label" for="searchCapacity">Minimum Capacity</label>
+            <input class="field-input" type="number" id="searchCapacity" placeholder="Any capacity" min="1" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">AC Required</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="searchAC" value="any" checked /> Any</label>
+              <label class="radio-opt"><input type="radio" name="searchAC" value="yes" /> Yes</label>
+              <label class="radio-opt"><input type="radio" name="searchAC" value="no" /> No</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Washroom Required</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="searchWash" value="any" checked /> Any</label>
+              <label class="radio-opt"><input type="radio" name="searchWash" value="yes" /> Yes</label>
+              <label class="radio-opt"><input type="radio" name="searchWash" value="no" /> No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="searchBtn">
+            <span class="btn-icon">⌕</span> Search
+          </button>
+          <button class="btn btn-ghost" id="resetSearchBtn">Reset</button>
+        </div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="output-panel" id="searchOutput" style="display:none;"></div>
+      <div class="rooms-grid" id="searchResultsGrid"></div>
+    </section>
+
+    <!-- ═══ TAB: ALLOCATE ═══ -->
+    <section class="tab-panel" id="tab-allocate">
+      <div class="panel-header">
+        <h1 class="panel-title">Allocate Room</h1>
+        <p class="panel-subtitle">Find the optimal smallest room meeting all requirements</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-row">
+          <div class="field-group">
+            <label class="field-label" for="allocStudents">Number of Students</label>
+            <input class="field-input" type="number" id="allocStudents" placeholder="How many students?" min="1" />
+            <span class="field-error" id="err-allocStudents"></span>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Needs AC</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="allocAC" value="no" checked /> No</label>
+              <label class="radio-opt"><input type="radio" name="allocAC" value="yes" /> Yes</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Needs Washroom</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="allocWash" value="no" checked /> No</label>
+              <label class="radio-opt"><input type="radio" name="allocWash" value="yes" /> Yes</label>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-allocate" id="allocateBtn">
+          <span class="btn-icon">⚡</span> Allocate Room
+        </button>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="output-panel" id="allocOutput" style="display:none;"></div>
+    </section>
+
+  </main>
+
+  <script src="src/data.js"></script>
+  <script src="src/allocation.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
