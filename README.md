@@ -6,8 +6,7 @@ A fully client-side web application that manages hostel rooms and automatically 
 
 ## 🚀 Live Demo
 
-> **[https://your-deployment-url.netlify.app](https://your-deployment-url.netlify.app)**  
-> _(Replace with your actual deployment URL after hosting)_
+> https://adorable-hamster-3c4060.netlify.app/
 
 ---
 
@@ -20,7 +19,7 @@ A fully client-side web application that manages hostel rooms and automatically 
 | Logic       | Vanilla JavaScript (ES6 modules via IIFE pattern) |
 | Persistence | LocalStorage (no backend required) |
 | Fonts       | Google Fonts — Syne + Space Mono  |
-| Hosting     | Netlify / Vercel / GitHub Pages   |
+| Hosting     | Netlify    |
 
 **No frameworks. No build tools. No dependencies.**  
 Just open `index.html` in a browser — it works.
@@ -102,28 +101,7 @@ python3 -m http.server 8080
 
 ---
 
-## 🌐 Deployment
 
-### Netlify (recommended)
-```bash
-# Drag & drop the project folder at netlify.com/drop
-# OR use CLI:
-npm i -g netlify-cli
-netlify deploy --prod --dir .
-```
-
-### Vercel
-```bash
-npm i -g vercel
-vercel --prod
-```
-
-### GitHub Pages
-1. Push repo to GitHub
-2. Settings → Pages → Source: main branch / root
-3. Done
-
----
 
 ## 🔐 Error Handling
 
@@ -137,19 +115,7 @@ vercel --prod
 
 ---
 
-## 📁 Git Commit History (minimum 3)
 
-```
-feat: initial project structure and HTML layout
-feat: add RoomStore data layer with LocalStorage persistence
-feat: implement AllocationEngine with smallest-room algorithm
-feat: build UI helpers and render room cards
-feat: wire app controller — all tabs and event handlers functional
-style: polish dark-theme UI, animations, and responsive layout
-```
 
 ---
 
-## 👤 Author
-
-Built as part of Round-2 Assignment — Smart Hostel Room Allocation System.
